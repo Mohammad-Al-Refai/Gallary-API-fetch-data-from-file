@@ -4,7 +4,13 @@
     margin: 0%;
     
 }
-
+.more{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    position: fixed;
+z-index:15 ;
+}
 .main{
     background-color: white;
    
@@ -12,13 +18,12 @@
 .gllary{
     padding-top: 5%;
     padding-bottom: 5%;
-    overflow-y: scroll;
     width: 100%;
     background-color: gray;
 }
 .img{
     width: 100%;
-    height:auto;
+    height:auto0;
    float: left;
 
 }
@@ -27,13 +32,14 @@
 display: inline-block;
     margin-left:30%;
     width: 50%;
+    overflow: hidden scroll;
 }
 .box{
     position: absolute;
     top: 0%;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.493);
+    background-color: #3a34340f;
 }
 .s{
     width: 150px;
@@ -73,27 +79,27 @@ left: 33%;
 .next{
     color: rgb(146, 143, 143);
    font-size: 50px;
-   top: 150px;
-    height: 50px;
+   top: 49px;
+    height: 202px;
     width: 50px;
-    top: 130px;
+    top: 49px;
     border: 0px;
     outline: none;
     position: absolute;
-    background-color:rgba(0, 0, 0, 0.651); 
+    background-color:rgba(0, 0, 0, 0); 
 }
 .back{
     color: rgb(146, 143, 143);
    font-size: 50px;
-   height: 50px;
+   height: 202px;
    width: 50px;
    border: 0px;
    outline: none;
 
-   top: 130px;
+   top: 49px;
 left: 250px;
     position: absolute;
-    background-color:rgba(0, 0, 0, 0.651); 
+    background-color:rgba(0, 0, 0, 0); 
 }
 .ss{
     position: absolute;
