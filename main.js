@@ -1,35 +1,30 @@
 let images = document.getElementsByClassName("img");
 let bag = document.getElementById("bag");
 let g = document.getElementById("g");
-let mor=document.getElementById("more");
+let mor = document.getElementById("more");
 let box;
+let img;
 let path;
-let page=1;
-let urle=[];
+let f;
+let page = 1;
+let urle = [];
 let fetchLenght;
 let targets;
 let state;
+let cr = 0;
 let i;
 let imageURL = [];
 let title = document.createElement("p");
 let imageArray = [];
-getImageURL();
+check();
+more();
+check();
 let close = document.getElementById("close");
-for (let i = 0; i < images.length; i++) {
-    images[i].setAttribute("state", "0");
-    images[i].addEventListener("click", s => {
-        path = images[i].src;
-        images[i].setAttribute("state", "1");
-        targets = i;
-        showImage(path);
-        console.log("Clisck on:" + targets);
-        title.innerHTML = "img" + targets;
-    });
-}
+
 function showImage(path) {
     box = document.createElement("div");
     box.className = "box";
-    let img = document.createElement("img");
+    img = document.createElement("img");
     img.className = "imgv";
     ss = document.createElement("div");
     ss.className = "ss";
@@ -58,80 +53,76 @@ function showImage(path) {
     next.setAttribute("click", "1");
     document.body.appendChild(box);
     close.addEventListener("click", r => {
-        // document.body.remove(box);
-        document.body.remove(box);
-
+    alert("soon...");
     });
     next.addEventListener("click", r => {
-        if (targets == imageArray.length - 1) {
-            targets = imageArray.length - 1;
+        if (targets == images.length - 1) {
+            targets = images.length - 1;
         } else {
-            img.src = urle[0][1].url;
+            img.src = urle[targets = targets + 1];
             title.innerHTML = "img" + targets;
-            console.log(targets);
-
-
+            console.log(urle[targets = targets + 1]);
         }
-
     });
     back.addEventListener("click", r => {
         if (targets == 0) {
             targets = 0;
         } else {
-            img.src = imageArray[targets = targets - 1];
+            img.src = urle[targets = targets - 1];
+            console.log(urle[targets = targets - 1]);
             title.innerHTML = "img" + targets;
         }
     });
 }
-
-function getImageURL() {
-    let h = new Headers();
-    h.append("Authorization", "Bearer CJTuUpJoLIuvXyrfOz6aAFhf3q2B6VbLfgrp");
-    fetch("https://gorest.co.in/public-api/photos?page="+page++, {
-        method: "GET",
-        headers: h
+function getImageURL(b) {
+    fetch("http://localhost:5500/photo/" + page + "/" + cr++, {
+        method: 'GET'
     }).then(data => {
-        mor.innerHTML="Loading...";
-
+        mor.innerHTML = "Loading...";
         return data.json();
     }).then(re => {
-      console.log(re.result);
-      fetchLenght=re.result.length;
-      urle.push(re.result);
-      console.log(fetchLenght);
-      for(let p=0;p<fetchLenght;p++){
-    downloadNewImage(urle[0][p].url);
-    console.log(urle[0][p].url);
-
-    }
-    for(let i=0;i<fetchLenght;i++){
-    images[i].src=urle[0][i].url;
-    console.log(urle[0][i].url);
-    }
-    mor.innerHTML="More";
-
+        urle.push(re.url);
+        downloadNewImageAndSet(b);
+        mor.innerHTML = "More";
     });
 }
-function downloadNewImage(urls) {
+function downloadNewImageAndSet(u) {
     let div1 = document.createElement("div");
     let imgd = document.createElement("img");
     imgd.setAttribute("state", "1");
     div1.className = "s";
     imgd.className = "img";
-    imgd.setAttribute("src", urls);
+    imgd.setAttribute("src", urle[u]);
     div1.appendChild(imgd);
     g.appendChild(div1);
     images = document.getElementsByTagName("img");
     for (let y = 0; y < images.length; y++) {
         images[y].addEventListener("click", t => {
-        path = t.target.src;
-        showImage(path);
+            path = t.target.src;
+            showImage(path);
         });
     }
-    return urls;
 }
 function more() {
-    getImageURL();
-    mor.innerHTML="Loading...";
+        getImageURL();
+        check();
+    
+    mor.innerHTML = "More";
+    page++;
+    if (page == 4) {
+    mor.setAttribute("disabled","");
+    }
+}
+function check() {
+    for (let i = 0; i < images.length; i++) {
+        images[i].setAttribute("state", "0");
+        images[i].addEventListener("click", s => {
+            path = images[i].src;
+            images[i].setAttribute("state", "1");
+            targets = i;
+            console.log("Clisck on:" + targets);
+            title.innerHTML = "img" + targets;
+        });
+    }
 
-}    
+}
