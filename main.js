@@ -5,6 +5,7 @@ let mor = document.getElementById("more");
 let box;
 let img;
 let path;
+let y=0;
 let f;
 let page = 1;
 let urle = [];
@@ -16,11 +17,9 @@ let i;
 let imageURL = [];
 let title = document.createElement("p");
 let imageArray = [];
-check();
-more();
+getImageURL();
 check();
 let close = document.getElementById("close");
-
 function showImage(path) {
     box = document.createElement("div");
     box.className = "box";
@@ -74,28 +73,29 @@ function showImage(path) {
         }
     });
 }
-function getImageURL(b) {
-    fetch("http://localhost:5500/photo/" + page + "/" + cr++, {
+function getImageURL() {
+    fetch("http://localhost:5500/photo/" + page+++"/", {
         method: 'GET'
     }).then(data => {
         mor.innerHTML = "Loading...";
         return data.json();
     }).then(re => {
-        urle.push(re.url);
-        downloadNewImageAndSet(b);
+        urle=re;
         mor.innerHTML = "More";
+        for(let e=0;e<urle.length;e++){
+            check();
+            downloadNewImageAndSet(e);
+            mor.innerHTML = "More";
+            }
+            console.log(urle)
+
     });
 }
 function downloadNewImageAndSet(u) {
-    let div1 = document.createElement("div");
-    let imgd = document.createElement("img");
-    imgd.setAttribute("state", "1");
-    div1.className = "s";
-    imgd.className = "img";
-    imgd.setAttribute("src", urle[u]);
-    div1.appendChild(imgd);
-    g.appendChild(div1);
-    images = document.getElementsByTagName("img");
+    g.innerHTML+=`<div class="s">
+    <img src="${urle[u]}" class="img" state=1> 
+    </div>
+    `;
     for (let y = 0; y < images.length; y++) {
         images[y].addEventListener("click", t => {
             path = t.target.src;
@@ -104,14 +104,19 @@ function downloadNewImageAndSet(u) {
     }
 }
 function more() {
-        getImageURL();
-        check();
-    
+    getImageURL();
+    // for(let e=0;e<urle.length;e++){
+    // downloadNewImageAndSet(e);
+    // check();
     mor.innerHTML = "More";
-    page++;
+
+    // }
+
     if (page == 4) {
     mor.setAttribute("disabled","");
-    }
+    mor.innerHTML = "finish";
+
+}
 }
 function check() {
     for (let i = 0; i < images.length; i++) {
@@ -124,5 +129,4 @@ function check() {
             title.innerHTML = "img" + targets;
         });
     }
-
 }
